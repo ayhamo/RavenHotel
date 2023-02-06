@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div class="header">
+            <a asp-controller="Home" asp-action="Index">
+                <img src="~/img/logo.png" class="logo">
+            </a>
+            <br>
+            <div class="header-right">
+                <a asp-controller="Home" asp-action="Index">Home</a>
+                @{
+                    string xName = "Login", xAction = xName,
+                    yName = "Register", yAction = "Registration";
+                    if (Context.Session.Keys.Contains("User"))
+                    {
+                        var user = System.Text.Json.JsonSerializer.Deserialize<Project.Models.User>(
+                        Context.Session.GetString("User")!);
+                        xName = user!.FirstName + " " + user.LastName;
+                        xAction = "Index";
+                        yName = "Logout";
+                        yAction = yName;
+                    }
+                    <a asp-controller="Account" asp-action="@xAction">@xName</a>
+                    <a asp-controller="Account" asp-action="@yAction">@yName</a>
+                }
+                <a asp-controller="Home" asp-action="Support">Support</a>
+            </div>
+        </div>
+    </header>
+    @RenderBody()
+</body>
+</html>

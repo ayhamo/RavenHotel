@@ -1,0 +1,89 @@
+﻿@model Room
+
+@{
+    ViewData["Title"] = "Room " + Model.Number;
+}
+
+<div class="form">
+    <form method="post" asp-action="Payment">
+        @Html.Hidden("rn", Model.Number)
+        @Html.Hidden("tp", ViewData["tp"])
+
+        <div class="view-container">
+            <div class="title" style="color: #dc2f55">
+                Room @Model.Number
+            </div>
+
+            <div class="view">
+                <div class="view-imgs">
+                    <div class="img-display">
+                        <div class="img-showcase">
+                            @for (int i = 0; i < 4; i++)
+                            {
+                                <img src="~/img/@Model.Dir/img@(i).png">
+                            }
+                        </div>
+                    </div>
+
+                    <div class="img-select">
+                        @for (int i = 0; i < 4; i++)
+                        {
+                            <div class="img-item">
+                                <a data-id="@(i + 1)">
+                                    <img src="~/img/@Model.Dir/img@(i).png">
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="subtitle">
+                    @Model.Description
+
+                    <p style="margin-top: 25px">
+                        Floor: @Model.Floor
+                    </p>
+                    <p>
+                        Type: @System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(
+                        Model.Type.ToString().ToLower())
+                    </p>
+                    <p>Capacity: @Model.Capacity</p>
+                    <p>
+                        Wi-Fi: @(Model.Wifi ? "Available" : "N/A")
+                    </p>
+                    <p>Breakfast: @(Model.Breakfast ? "Available" : "N/A")</p>
+                    <p>Smoking: @(Model.Smoking ? "Available" : "N/A")</p>
+                    <p>Price per night: $@Model.Price</p>
+                </div>
+            </div>
+
+            @if (ViewData["tp"] != null)
+            {
+                <button class="submit">
+                    @($"Book for ${ViewData["tp"]}")
+                </button>
+            }
+        </div>
+    </form>
+</div>
+
+<script>
+    const imgs = document.querySelectorAll(".img-select a");
+    const imgBtns = [...imgs];
+    let imgId = 1;
+    imgBtns.forEach((imgItem) => {
+        imgItem.addEventListener("click", (event) => {
+            event.preventDefault();
+            imgId = imgItem.dataset.id;
+            slideImage();
+        });
+    });
+    function slideImage() {
+        const displayWidth = document
+            .querySelector(".img-showcase img:first-child")
+            .clientWidth;
+        document.querySelector(".img-showcase").style.transform =
+            `translateX(${-(imgId - 1) * displayWidth}px)`;
+    }
+    window.addEventListener("resize", slideImage);
+</script>

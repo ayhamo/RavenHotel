@@ -1,0 +1,80 @@
+﻿@model Object[]
+
+@{
+    ViewData["Title"] = "Records";
+}
+
+<div class="form filter">
+    <div class="subtitle" style="margin-bottom: 35px">
+        Choose your records type
+    </div>
+
+    <form method="post">
+        <select name="bookings" class="type">
+            <option value="true">Bookings</option>
+            <option value="false" selected="@ViewData["Select"]">Guests</option>
+        </select>
+
+        <button class="submit">
+            Apply
+        </button>
+    </form>
+</div>
+@{
+    <div class="form filter" style="margin-top: 30px">
+        @if (Model.Any())
+        {
+            <table>
+                @if (Model is Booking[])
+                {
+                    <tr>
+                        <th>Confirmation</th>
+                        <th>Email</th>
+                        <th>Room</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Guests</th>
+                        <th>Paid ($)</th>
+                    </tr>
+                    foreach (var b in (Model as Booking[])!)
+                    {
+                        <tr>
+                            <td>@b.Confirmation</td>
+                            <td>@b.User!.Email</td>
+                            <td>@b.Room!.Number</td>
+                            <td>@b.CheckIn.ToShortDateString()</td>
+                            <td>@b.CheckOut.ToShortDateString()</td>
+                            <td>@b.People</td>
+                            <td>@b.Price</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Email</th>
+                        <th>Phone number</th>
+                    </tr>
+                    foreach (var u in (Model as User[])!)
+                    {
+                        <tr>
+                            <td>@u.FirstName</td>
+                            <td>@u.LastName</td>
+                            <td>@u.Email</td>
+                            <td>@u.PhoneNumber</td>
+                        </tr>
+                    }
+                }
+            </table>
+
+        }
+        else
+        {
+            <div class="title" style="color: #dc2f55; margin: 0">
+                No record found
+            </div>
+        }
+    </div>
+}

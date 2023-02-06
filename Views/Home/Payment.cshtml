@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Payment";
+}
+
+<div class="form">
+    <div class="title">
+        Payment
+    </div>
+
+    <div class="subtitle" style="border: 3px solid #dc2f55;
+         border-radius: 12px; text-align: center; margin: 20px 250px">
+        <p>For: Room @ViewData["rn"]</p>
+        <p>Check-in: @ViewData["cin"]</p>
+        <p>Check-out: @ViewData["cout"]</p>
+        <p>Total price: @ViewData["tp"]</p>
+    </div>
+
+    <form method="post">
+        @Html.Hidden("rn")
+        @Html.Hidden("tp")
+
+        <div class="input-container">
+            <input type="text" id="ccn" class="input" placeholder=" " pattern="^\d{16}$" required>
+            <div class="cut" style="width: 125px"></div>
+            <label for="ccn" class="placeholder">
+                Credit card number
+            </label>
+        </div>
+
+        <div class="input-container">
+            <input type="text" id="exp" name="exp" class="input" placeholder=" " pattern="^(0[1-9]|1[0-2])\/?([0-9]{2})$" required>
+            <div class="cut" style="width: 100px"></div>
+            <label for="exp" class="placeholder">
+                Expiration date
+            </label>
+        </div>
+
+        <div class="input-container">
+            <input type="text" id="cvc" class="input" placeholder=" " pattern="^\d{3}$" required>
+            <div class="cut" style="width: 47px"></div>
+            <label for="cvc" class="placeholder">
+                CVC
+            </label>
+        </div>
+
+        <button class="submit">
+            Pay
+        </button>
+
+        @if (ViewData["Error"] != null)
+        {
+            <div class="err">
+                <p>@ViewData["Error"]</p>
+            </div>
+        }
+    </form>
+</div>

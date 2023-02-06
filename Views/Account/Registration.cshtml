@@ -1,0 +1,75 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Registration";
+}
+
+<div class="form">
+    <div class="title">
+        Registration
+    </div>
+
+    <div class="subtitle">
+        Create your account
+    </div>
+
+    <form method="post">
+        <div class="input-container">
+            <input type="text" asp-for="FirstName" class="input" placeholder=" " required>
+            <div class="cut"></div>
+            <label asp-for="FirstName" class="placeholder">
+                First name
+            </label>
+        </div>
+
+        <div class="input-container">
+            <input type="text" asp-for="LastName" class="input" placeholder=" " required>
+            <div class="cut"></div>
+            <label asp-for="LastName" class="placeholder">
+                Last name
+            </label>
+        </div>
+
+        <div class="input-container">
+            <input asp-for="Email" class="input" type="email" placeholder=" " required>
+            <div class="cut" style="width: 50px"></div>
+            <label asp-for="Email" class="placeholder">
+                Email
+            </label>
+        </div>
+
+        <div class="input-container">
+            <input asp-for="Password" class="input" type="password" placeholder=" " required>
+            <div class="cut"></div>
+            <label asp-for="Password" class="placeholder">
+                Password
+            </label>
+        </div>
+
+        <div class="input-container">
+            <input asp-for="PhoneNumber" class="input" type="tel"
+                   placeholder=" " pattern="[0-9]{8,15}">
+            <div class="cut" style="width: 100px"></div>
+            <label asp-for="PhoneNumber" class="placeholder">
+                Phone number
+            </label>
+        </div>
+
+        <button class="submit">
+            Register
+        </button>
+
+        @if (ViewData["Errors"] != null)
+        {
+            <div class="err">
+                @foreach (var error in (ViewData["Errors"] as string[])!)
+                {
+                    @if (!string.IsNullOrEmpty(error))
+                    {
+                        <p>@error</p>
+                    }
+                }
+            </div>
+        }
+    </form>
+</div>

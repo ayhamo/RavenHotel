@@ -1,0 +1,103 @@
+﻿@model Room[]
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+<div class="form filter">
+    <div class="subtitle" style="margin-bottom: 35px">
+        Choose your filtering and sorting options
+    </div>
+
+    <form method="get">
+        @Html.Hidden("cin")
+        @Html.Hidden("cout")
+        @Html.Hidden("cap")
+
+        <div class="checkbox">
+            <input type="checkbox" id="wifi" class="checkbox-input" name="wifi" value="true" checked="@ViewData["wifi"]">
+            <label for="wifi" class="checkbox-label">
+                Wi-Fi
+            </label>
+        </div>
+
+        <div class="checkbox">
+            <input type="checkbox" id="brk" class="checkbox-input" name="brk" value="true" checked="@ViewData["brk"]">
+            <label for="brk" class="checkbox-label">
+                Breakfast
+            </label>
+        </div>
+
+        <div class="checkbox">
+            <input type="checkbox" id="smk" class="checkbox-input" name="smk" value="true" checked="@ViewData["smk"]">
+            <label for="smk" class="checkbox-label">
+                Smoking
+            </label>
+        </div>
+
+        <select name="sort">
+            <option value="" selected disabled hidden>Sort by</option>
+            <option value="lp" selected="@ViewData["lp"]">Lowest price</option>
+            <option value="hp" selected="@ViewData["hp"]">Highest price</option>
+            <option value="lc" selected="@ViewData["lc"]">Lowest Capacity</option>
+            <option value="hc" selected="@ViewData["hc"]">Highest Capacity</option>
+        </select>
+
+        <button class="submit">
+            Apply
+        </button>
+    </form>
+</div>
+
+@{
+    if (Model.Any())
+    {
+        foreach (var r in Model)
+        {
+            <form method="get" asp-action="Details">
+                <div class="result">
+                    <div class="result-info">
+                        <div class="title" style="color: #dc2f55">
+                            Room @r.Number
+                        </div>
+
+                        <div class="subtitle" style="margin-top: 30px">
+                            <p>
+                                Wi-Fi: @(r.Wifi ? "Available" : "N/A")
+                            </p>
+                            <p>
+                                Breakfast: @(r.Breakfast ? "Available" : "N/A")
+                            </p>
+                            <p>
+                                Smoking: @(r.Smoking ? "Available" : "N/A")
+                            </p>
+                            <p>Price per night: $@r.Price</p>
+                        </div>
+
+                        <button class="submit" name="number" value="@r.Number" style="margin-top: 30px">
+                            View
+                        </button>
+                    </div>
+
+                    <div class="result-img">
+                        <img src="~/img/@r.Dir/img0.png">
+
+                        <div class="result-desc">
+                            <div class="subtitle" style="margin: 30px">
+                                @r.Description
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        }
+    }
+    else
+    {
+        <div class="form filter" style="margin-top: 30px">
+            <div class="title" style="color: #dc2f55; margin: 0">
+                No room found
+            </div>
+        </div>
+    }
+}

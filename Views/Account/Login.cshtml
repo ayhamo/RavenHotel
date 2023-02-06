@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="form">
+    <div class="title">
+        Login
+    </div>
+
+    <div class="subtitle">
+        Sign in with your account
+    </div>
+
+    <form method="post">
+        <div class="input-container">
+            <input id="email" name="email" class="input" type="email" value="@TempData["Email"]" placeholder=" " required>
+            <div class="cut" style="width: 50px"></div>
+            <label for="email" class="placeholder">
+                Email
+            </label>
+        </div>
+
+        <div class="input-container">
+            <input id="password" name="password" class="input" type="password" placeholder=" " required>
+            <div class="cut"></div>
+            <label for="password" class="placeholder">
+                Password
+            </label>
+        </div>
+
+        <button class="submit">
+            Log in
+        </button>
+
+        @if (ViewData["Error"] != null)
+        {
+            <div class="err">
+                <p>@ViewData["Error"]</p>
+            </div>
+        }
+    </form>
+</div>

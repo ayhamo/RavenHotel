@@ -1,0 +1,108 @@
+﻿@model Room
+
+@{
+    ViewData["Title"] = "Add";
+}
+
+<div class="form">
+    <div class="title">
+        Add
+    </div>
+
+    <div class="subtitle">
+        Insert a room
+    </div>
+
+    <form method="post">
+        <div class="input-container">
+            <input asp-for="Number" class="input" type="text" placeholder=" "
+                   onfocus="(this.type = 'number')" onblur="if (!this.value) this.type = 'text'"
+                   min="1" required>
+            <div class="cut" style="width: 63px"></div>
+            <label asp-for="Number" class="placeholder">
+                Number
+            </label>
+        </div>
+
+        <div class="input-container">
+            <input asp-for="Floor" class="input" type="text" placeholder=" "
+                   onfocus="(this.type = 'number')" onblur="if (!this.value) this.type = 'text'"
+                   min="0" required>
+            <div class="cut" style="width: 50px"></div>
+            <label asp-for="Floor" class="placeholder">
+                Floor
+            </label>
+        </div>
+
+        <div class="input-container">
+            <input asp-for="Capacity" class="input" type="text" placeholder=" "
+                   onfocus="(this.type = 'number')" onblur="if (!this.value) this.type = 'text'"
+                   min="1" required>
+            <div class="cut" style="width: 67px"></div>
+            <label asp-for="Capacity" class="placeholder">
+                Capacity
+            </label>
+        </div>
+
+        <div class="input-container">
+            <input asp-for="Price" class="input" type="text" placeholder=" "
+                   onfocus="(this.type = 'number')" onblur="if (!this.value) this.type = 'text'"
+                   min="0" step="any" required>
+            <div class="cut" style="width: 100px"></div>
+            <label asp-for="Price" class="placeholder">
+                Price per night
+            </label>
+        </div>
+
+        <div class="input-container">
+            <input asp-for="Dir" class="input" type="text" placeholder=" "
+                   onfocus="(this.type = 'number')" onblur="if (!this.value) this.type = 'text'"
+                   min="0" required>
+            <div class="cut" style="width: 70px"></div>
+            <label asp-for="Dir" class="placeholder">
+                Directory
+            </label>
+        </div>
+
+        <div class="input-container" style="height: 350px">
+            <textarea asp-for="Description" class="input" style="padding: 20px" placeholder=" " required></textarea>
+            <div class="cut" style="width: 80px"></div>
+            <label asp-for="Description" class="placeholder">
+                Description
+            </label>
+        </div>
+
+        <div style="margin-top: 30px">
+            <div class="checkbox">
+                <input asp-for="Wifi" class="checkbox-input" value="true">
+                <label asp-for="Wifi" class="checkbox-label">
+                    Wi-Fi
+                </label>
+            </div>
+
+            <div class="checkbox">
+                <input asp-for="Breakfast" class="checkbox-input" value="true">
+                <label asp-for="Breakfast" class="checkbox-label">
+                    Breakfast
+                </label>
+            </div>
+
+            <div class="checkbox" style="margin-right: 47px">
+                <input asp-for="Smoking" class="checkbox-input" value="true">
+                <label asp-for="Smoking" class="checkbox-label">
+                    Smoking
+                </label>
+            </div>
+
+            <select asp-for="Type">
+                <option value="0">Normal</option>
+                <option value="1">Studio</option>
+                <option value="2">Suite</option>
+            </select>
+        </div>
+
+        <button class="submit">
+            Add
+        </button>
+    </form>
+</div>

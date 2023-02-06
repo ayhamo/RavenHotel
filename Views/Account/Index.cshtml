@@ -1,0 +1,179 @@
+﻿@model Object[]
+
+@{
+    if (Model is Room[])
+    {
+        var rooms = Model as Room[];
+        <form method="post">
+            <div class="form filter">
+                <button class="submit" asp-action="Add"
+                style="margin: 0">
+                    Add Room
+                </button>
+
+                <button class="submit" asp-action="Records" name="bookings" value="true">
+                    Display Records
+                </button>
+            </div>
+        </form>
+        if (rooms!.Any())
+        {
+            foreach (var r in rooms!)
+            {
+                <form method="post" asp-action="Edit">
+                    <div class="result">
+                        <div class="result-info">
+                            <div class="title" style="color: #dc2f55; margin: 0">
+                                Room @r.Number
+                            </div>
+
+                            <div class="subtitle" style="margin-top: 30px">
+                                <p>Floor: @r.Floor</p>
+                                <p>
+                                    Type: @System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(
+                    r.Type.ToString().ToLower())
+                                </p>
+                                <p>Capacity: @r.Capacity</p>
+                                <p>Price per night: $@r.Price</p>
+                                <p>Directory: @r.Dir</p>
+                            </div>
+
+                            <div style="display: flex">
+                                <button class="submit" name="edit" value="@r.Number" style="flex: 1; margin: 20px 7px 0 0">
+                                    Edit
+                                </button>
+
+                                <button class="submit" name="del" value="@r.Number" style="flex: 1; margin: 20px 0 0 7px; background-color: #dc2f55">
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="result-img">
+                            <img src="~/img/@r.Dir/img0.png">
+
+                            <div class="result-desc">
+                                <div class="subtitle" style="margin: 30px">
+                                    @r.Description
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            }
+        }
+        else
+        {
+            <div class="form filter" style="margin-top: 30px">
+                <div class="title" style="color: #dc2f55; margin: 0">
+                    No room found
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        var currentBookings = (Model as Booking[])!.Where(
+            b => b.CheckOut > DateTime.Now);
+        var previousBookings = (Model as Booking[])!.Where(
+            b => b.CheckOut < DateTime.Now);
+        var x = "0";
+        <div class="form filter" style="margin-bottom: 30px">
+            <div class="title" style="margin: 0">
+                Your Bookings
+            </div>
+        </div>
+        if (currentBookings.Any())
+        {
+            foreach (var b in currentBookings)
+            {
+                <form method="post" asp-action="Edit">
+                    @Html.Hidden("cin", b.CheckIn)
+                    @Html.Hidden("cout", b.CheckOut)
+                    @Html.Hidden("cap", b.People)
+
+                    <div class="result">
+                        <div class="result-info">
+                            <div class="title" style="color: #dc2f55; margin: 0">
+                                @b.Confirmation
+                            </div>
+
+                            <div class="subtitle" style="margin-top: 30px">
+                                <p>Room: @b.Room!.Number</p>
+                                <p>Check-in: @b.CheckIn.ToShortDateString()</p>
+                                <p>Check-out: @b.CheckOut.ToShortDateString()</p>
+                                <p>Guests: @b.People</p>
+                                <p>Paid: $@b.Price</p>
+                            </div>
+
+                            <div style="display: flex">
+                                @if (b.CheckIn > DateTime.Now)
+                                {
+                                    <button class="submit" name="edit" value="@b.Confirmation" style="flex: 1; margin: 20px 7px 0 0">
+                                        Edit
+                                    </button>
+                                    x = "7px";
+                                }
+                                <button class="submit" name="del" value="@b.Confirmation" style="flex: 1; margin: 20px 0 0 @x; background-color: #dc2f55">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="result-img">
+                            <img src="~/img/@b.Room.Dir/img0.png">
+                        </div>
+                    </div>
+                </form>
+            }
+        }
+        else
+        {
+            <div class="form filter" style="margin-top: 30px">
+                <div class="title" style="color: #dc2f55; margin: 0">
+                    No booking found
+                </div>
+            </div>
+        }
+        <div class="form filter" style="margin: 30px auto">
+            <div class="title" style="margin: 0">
+                Your Previous Bookings
+            </div>
+        </div>
+        if (previousBookings.Any())
+        {
+            foreach (var b in previousBookings)
+            {
+                <form method="post">
+                    <div class="result">
+                        <div class="result-info">
+                            <div class="title" style="color: #dc2f55">
+                                @b.Confirmation
+                            </div>
+
+                            <div class="subtitle" style="margin-top: 30px">
+                                <p>Room: @b.Room!.Number</p>
+                                <p>Checked-in: @b.CheckIn.ToShortDateString()</p>
+                                <p>Checked-out: @b.CheckOut.ToShortDateString()</p>
+                                <p>Guests: @b.People</p>
+                                <p>Paid: $@b.Price</p>
+                            </div>
+                        </div>
+
+                        <div class="result-img">
+                            <img src="~/img/@b.Room.Dir/img0.png">
+                        </div>
+                    </div>
+                </form>
+            }
+        }
+        else
+        {
+            <div class="form filter" style="margin-top: 30px">
+                <div class="title" style="color: #dc2f55; margin: 0">
+                    No previous booking found
+                </div>
+            </div>
+        }
+    }
+}

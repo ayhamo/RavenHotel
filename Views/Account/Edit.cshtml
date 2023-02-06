@@ -1,0 +1,199 @@
+﻿@model Room
+
+@{
+    ViewData["Title"] = "Edit";
+    if (Model != null && Model.Description != null)
+    {
+        <div class="form">
+            <div class="title">
+                Room @Model.Number
+            </div>
+
+            <div class="subtitle">
+                Edit a room
+            </div>
+
+            <form method="post">
+                @Html.Hidden("edit")
+
+                <div class="input-container">
+                    <input asp-for="Number" class="input" type="text" placeholder=" " value="@Model.Number"
+                   onfocus="(this.type = 'number')" onblur="if (!this.value) this.type = 'text'"
+                   min="1" required>
+                    <div class="cut" style="width: 63px"></div>
+                    <label asp-for="Number" class="placeholder">
+                        Number
+                    </label>
+                </div>
+
+                <div class="input-container">
+                    <input asp-for="Floor" class="input" type="text" placeholder=" " value="@Model.Floor"
+                   onfocus="(this.type = 'number')" onblur="if (!this.value) this.type = 'text'"
+                   min="0" required>
+                    <div class="cut" style="width: 50px"></div>
+                    <label asp-for="Floor" class="placeholder">
+                        Floor
+                    </label>
+                </div>
+
+                <div class="input-container">
+                    <input asp-for="Capacity" class="input" type="text" placeholder=" " value="@Model.Capacity"
+                   onfocus="(this.type = 'number')" onblur="if (!this.value) this.type = 'text'"
+                   min="1" required>
+                    <div class="cut" style="width: 67px"></div>
+                    <label asp-for="Capacity" class="placeholder">
+                        Capacity
+                    </label>
+                </div>
+
+                <div class="input-container">
+                    <input asp-for="Price" class="input" type="text" placeholder=" " value="@Model.Price"
+                   onfocus="(this.type = 'number')" onblur="if (!this.value) this.type = 'text'"
+                   min="0" step="any" required>
+                    <div class="cut" style="width: 100px"></div>
+                    <label asp-for="Price" class="placeholder">
+                        Price per night
+                    </label>
+                </div>
+
+                <div class="input-container">
+                    <input asp-for="Dir" class="input" type="text" placeholder=" " value="@Model.Dir"
+                   onfocus="(this.type = 'number')" onblur="if (!this.value) this.type = 'text'"
+                   min="0" required>
+                    <div class="cut" style="width: 70px"></div>
+                    <label asp-for="Dir" class="placeholder">
+                        Directory
+                    </label>
+                </div>
+
+                <div class="input-container" style="height: 350px">
+                    <textarea asp-for="Description" class="input" style="padding: 20px" placeholder=" " required>
+                        @Model.Description</textarea>
+                    <div class="cut" style="width: 80px"></div>
+                    <label asp-for="Description" class="placeholder">
+                        Description
+                    </label>
+                </div>
+
+                <div style="margin-top: 30px">
+                    <div class="checkbox">
+                        <input asp-for="Wifi" class="checkbox-input" checked="@Model.Wifi">
+                        <label asp-for="Wifi" class="checkbox-label">
+                            Wi-Fi
+                        </label>
+                    </div>
+
+                    <div class="checkbox">
+                        <input asp-for="Breakfast" class="checkbox-input" checked="@Model.Breakfast">
+                        <label asp-for="Breakfast" class="checkbox-label">
+                            Breakfast
+                        </label>
+                    </div>
+
+                    <div class="checkbox" style="margin-right: 47px">
+                        <input asp-for="Smoking" class="checkbox-input" checked="@Model.Smoking">
+                        <label asp-for="Smoking" class="checkbox-label">
+                            Smoking
+                        </label>
+                    </div>
+
+                    <select asp-for="Type">
+                        <option selected="@(Model.Type == Room.RoomType.NORMAL)" value="0">Normal</option>
+                        <option selected="@(Model.Type == Room.RoomType.STUDIO)" value="1">Studio</option>
+                        <option selected="@(Model.Type == Room.RoomType.SUITE)" value="2">Suite</option>
+                    </select>
+                </div>
+
+                <button class="submit">
+                    Edit
+                </button>
+
+                @if (ViewData["Error"] != null)
+                {
+                    <div class="err">
+                        <p>@ViewData["Error"]</p>
+                    </div>
+                }
+            </form>
+        </div>
+    }
+    else
+    {
+        <div class="form">
+            <div class="title">
+                @ViewData["code"]
+            </div>
+
+            <div class="subtitle">
+                Edit your booking
+            </div>
+
+            <form method="post">
+                @Html.Hidden("edit")
+
+                <div class="input-container">
+                    <input id="in" name="cin" class="input" type="text" placeholder=" " value="@ViewData["cin"]"
+                       onfocus="(this.type = 'date')"
+                       min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" required>
+                    <div class="cut" style="width: 70px"></div>
+                    <label for="in" class="placeholder">
+                        Check-in
+                    </label>
+                </div>
+
+                <div class="input-container">
+                    <input id="out" name="cout" class="input" type="text" placeholder=" " value="@ViewData["cout"]"
+                       onfocus="(this.type = 'date')" required>
+                    <div class="cut"></div>
+                    <label for="out" class="placeholder">
+                        Check-out
+                    </label>
+                </div>
+
+                <div class="input-container">
+                    <input id="cap" name="cap" class="input" type="text" placeholder=" " value="@ViewData["cap"]"
+                       onfocus="(this.type = 'number')"
+                       min="1" required>
+                    <div class="cut" style="width: 60px"></div>
+                    <label for="cap" class="placeholder">
+                        People
+                    </label>
+                </div>
+
+                <button class="submit" name="apply" value="true">
+                    Edit
+                </button>
+
+                @if (ViewData["Errors"] != null)
+                {
+                    <div class="err">
+                        @foreach (var error in (ViewData["Errors"] as string[])!)
+                        {
+                            if (!string.IsNullOrEmpty(error))
+                            {
+                                <p>@error</p>
+                            }
+                        }
+                    </div>
+                }
+            </form>
+        </div>
+
+        <script>
+            var cin = document.getElementById("in");
+            var cout = document.getElementById("out");
+            cin.type = 'date';
+            cout.type = 'date';
+            var date = new Date(cin.value);
+            date.setDate(date.getDate() + 1);
+            cout.min = date.toISOString().split("T")[0];
+            cin.onchange = (e) => {
+                var date = new Date(cin.value);
+                date.setDate(date.getDate() + 1);
+                cout.value = null;
+                cout.type = 'text';
+                cout.min = date.toISOString().split("T")[0];
+            };
+        </script>
+    }
+}

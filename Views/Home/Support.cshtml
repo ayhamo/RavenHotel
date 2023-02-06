@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Support";
+}
+
+<div class="form">
+    <div class="title">
+        Support
+    </div>
+
+    <div class="subtitle">
+        Contact us
+    </div>
+
+    <form method="post" asp-action="Index">
+        <div class="input-container">
+            <input id="email" name="email" class="input" type="email" value="@ViewData["Email"]" placeholder=" " required>
+            <div class="cut" style="width: 50px"></div>
+            <label for="email" class="placeholder">
+                Email
+            </label>
+        </div>
+
+        <div class="input-container" style="height: 350px">
+            <textarea id="msg" name="msg" class="input" style="padding: 20px" placeholder=" " required></textarea>
+            <div class="cut" style="width: 70px"></div>
+            <label for="msg" class="placeholder">
+                Message
+            </label>
+        </div>
+
+        <button class="submit">
+            Send
+        </button>
+    </form>
+</div>

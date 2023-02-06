@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Raven Hotel";
+}
+
+<div class="form">
+    <div class="title">
+        Search
+    </div>
+
+    <div class="subtitle">
+        Find your room
+    </div>
+
+    <form method="get" asp-action="Search">
+        <div class="input-container">
+            <input id="in" name="cin" class="input" type="text" placeholder=" "
+                   onfocus="(this.type = 'date')"
+                   min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" required>
+            <div class="cut" style="width: 70px"></div>
+            <label for="in" class="placeholder">
+                Check-in
+            </label>
+        </div>
+
+        <div class="input-container">
+            <input id="out" name="cout" class="input" type="text" placeholder=" "
+                   onfocus="(this.type = 'date')" required>
+            <div class="cut"></div>
+            <label for="out" class="placeholder">
+                Check-out
+            </label>
+        </div>
+
+        <div class="input-container">
+            <input id="cap" name="cap" class="input" type="text" placeholder=" "
+                   onfocus="(this.type = 'number')"
+                   min="1" required>
+            <div class="cut" style="width: 60px"></div>
+            <label for="cap" class="placeholder">
+                People
+            </label>
+        </div>
+
+        <button class="submit">
+            Search
+        </button>
+    </form>
+</div>
+
+<script>
+    var cin = document.getElementById("in");
+    var cout = document.getElementById("out");
+    cin.onchange = (e) => {
+        var date = new Date(cin.value);
+        date.setDate(date.getDate() + 1);
+        cout.value = null;
+        cout.type = 'text';
+        cout.min = date.toISOString().split("T")[0];
+    };
+</script>
